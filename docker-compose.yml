@@ -4,31 +4,26 @@ services:
     build:
       context: .
       dockerfile: ./api/docker/Dockerfile
-    image: alsbury/php-app:latest
+    image: alsbury/fh-api:${API_IMAGE_VERSION:-latest}
     networks:
       - appnet
-    # volumes:
-    #   - .:/var/www/html
     ports:
-      - "${APP_PORT:-127.0.0.1:80}:80"
+      - "${API_PORT:-127.0.0.1:80}:80"
     working_dir: /var/www/html
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - APP_ENV=${APP_ENV:-prod}
+      - APP_SECRET=${APP_SECRET:-makeabettersecret}
   cache:
     image: redis:alpine
     networks:
       - appnet
     volumes:
       - cachedata:/data
-  node:
-    build:
-      context: ./ui/docker
-      dockerfile: Dockerfile
-    image: shippingdocker/node:latest
-    networks:
-      - appnet
-    volumes:
-      - .:/opt
-    working_dir: /opt
-    command: echo hi
+    # volumes:
+    #   - .:/opt
+    # working_dir: /opt
+    # command: echo hi
 networks:
   appnet:
     driver: bridge

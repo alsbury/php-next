@@ -35,6 +35,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 ADD ./api/docker/default /etc/nginx/sites-available/default
 ADD ./api/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD ./api/docker/php-fpm.conf /etc/php/8.1/fpm/php-fpm.conf
+ADD ./api/docker/www.conf /etc/php/8.1/fpm/pool.d/www.conf
 ADD ./api/docker/start-container /usr/bin/start-container
 
 COPY api /var/www/html

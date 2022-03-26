@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  pm:
+    restart: unless-stopped
+  app:
+    restart: unless-stopped
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    image: alsbury/fh-ui:latest
+    networks:
+      - appnet
+    ports:
+      - "${UI_PORT:-127.0.0.1:3000}:3000"
